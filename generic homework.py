@@ -3,11 +3,14 @@ import random
 class Homework():
     def __init__(self):
         """
-        Instantiates a homework object with attributes of the actual answer to the question\
-        and the users guess. Until these are set by a setter function they remain as
-        NoneType
+        Instantiates a homework object with attributes of the actual \
+        answer to the question and the users input in response to question
+        and the user guess which is the user input converted into a form\
+        that can be compared with the actual answer. Until these are\
+        set by a setter function they remain as NoneType
         """
         self.actual_ans = None
+        self.user_input = None
         self.user_guess = None
         
         
@@ -18,17 +21,44 @@ class Homework():
         return self.user_guess == self.actual_ans
 
 
-    def user_guess(self):
+    def setUser_input(self):
         """
         Asks for user input to in reponse to a question
         Returns user input
+        This method is not activated in the Homework parent class
         """
         pass
-    
+
+    def setUser_guess(self):
+        """
+        converts user in put into a form that can be compared\
+        with the actual answer
+        This method is not activated in the Homework parent class
+        """
+        pass
+
+    def getActual_ans(self):
+        """
+        return actual answer of the homework question
+        """
+        return self.actual_ans
+
+    def getUser_input(self):
+        """
+        return user input
+        """
+        return self.user_input
+
+    def getUser_guess(self):
+        """
+        return user guess after conversion to form for\
+        comparison with the actual answer
+        """
+        return self.user_guess
 
 
 class Addition(Homework):
-    task = 'Addition' ##class variable
+    task = 'Addition' ##class variable (name)
     def __init__(self):
         """
         Instantiates an Addition (Homework) object with two random ints\
@@ -39,15 +69,30 @@ class Addition(Homework):
         self.y = random.randint(1,12)
 
 
-    def getAddAns(self):
+    def setActual_ans(self):
         """
         return correct answer
         """ 
         self.ans = self.x + self.y
-        return self.ans
+
+    def setUser_input(self):
+        """
+        Asks for user input to in reponse to a question
+        Returns user input
+        """
+        self.user_input = input(self.x+"+"+self.y+"=")
+        
+    def question(self):
+        """
+        asks a question and receives user input\
+        return user input as string
+        """gh
+        
+        
+        
 
 
-    def getUserInput(self):
+    def setUser_guess(self):
         """
         Asks for user input to in reponse to a question
         Returns user input as int
