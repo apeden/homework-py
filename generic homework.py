@@ -80,15 +80,15 @@ class Addition(Homework):
         Asks for user input to in reponse to a question
         Returns user input
         """
-        self.user_input = input(self.x+"+"+self.y+"=")
+        self.user_input = input(self.x+" + "+self.y+"=")
         
-    def question(self):
+    def setUser_guess(self):
         """
-        asks a question and receives user input\
-        return user input as string
-        """gh
-        
-        
+        converts user in put into a form that can be compared\
+        with the actual answer, in this case and int  
+        """
+        self.user_guess = int(self.user_input)
+        assert type(self.user_guess) = int
         
 
 
@@ -100,14 +100,6 @@ class Addition(Homework):
         string_input = input('What is'+self.x+'+'+self.y+'?:')
         self.user_input = int(string_input)        
         return self.user_input
-
-
-
-
-
-
-
-
 
 
 class Session():
@@ -124,7 +116,7 @@ class Session():
 
     def ():
         for i in range(num_questions):
-            
+            i
             print('Question', i,'of ', self.num_qestions)
         
     def setDate(self):
@@ -139,9 +131,19 @@ class Session():
         Asks user to input name 
         Returns user input (string)
         """
-        self.date = input("What is your name?:")
+        self.name = input("What is your name?:")
 
+    def getDate(self):
+        """
+        Returns user input date(string)
+        """
+        return self.date
 
+    def setName(self):
+        """
+        Returns user input name(string)
+        """
+        return self.name
 
 
 
