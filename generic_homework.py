@@ -18,7 +18,7 @@ class Homework():
         """
         checks answer given by user, return True or False
         """        
-        return self.user_guess == self.actual_ans
+        return self.getUser_guess == self.getActual_ans
 
 
     def setUser_input(self):
@@ -37,11 +37,18 @@ class Homework():
         """
         pass
 
+    def setActual_ans(self):
+        """
+        resets self.actual ans when called
+        """         
+        pass
+
     def getActual_ans(self):
         """
         return actual answer of the homework question
         """
-        return self.actual_ans
+        ans = self.setActual_ans()
+        return ans
 
     def getUser_input(self):
         """
@@ -67,12 +74,11 @@ class Addition(Homework):
         Homework.__init__(self)
         self.x = random.randint(1,12)
         self.y = random.randint(1,12)
-
-
+        
     def setActual_ans(self):
         """
         resets self.actual ans when called
-        """ 
+        """         
         self.actual_ans = self.x + self.y
 
     def setUser_input(self):
@@ -80,7 +86,7 @@ class Addition(Homework):
         Asks for user input to in reponse to a question
         Returns user input
         """
-        self.user_input = input(self.x+" + "+self.y+"=")
+        self.user_input = input(str(self.x)+" + "+str(self.y)+"=")
         
     def setUser_guess(self):
         """
