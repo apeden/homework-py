@@ -71,9 +71,9 @@ class Addition(Homework):
 
     def setActual_ans(self):
         """
-        return correct answer
+        resets self.actual ans when called
         """ 
-        self.ans = self.x + self.y
+        self.actual_ans = self.x + self.y
 
     def setUser_input(self):
         """
@@ -90,85 +90,9 @@ class Addition(Homework):
         self.user_guess = int(self.user_input)
         assert type(self.user_guess) == int
         
-
-
-    def setUser_guess(self):
+    def getXY(self):
         """
-        Asks for user input to in reponse to a question
-        Returns user input as int
+        returns x and y as tuple (x,y)  
         """
-        string_input = input('What is'+self.x+'+'+self.y+'?:')
-        self.user_input = int(string_input)        
-        return self.user_input
+        return (self.x,self.y)
 
-
-class Session():
-    def __init__(self, task, num_questions):
-        """
-        instantiates a homework session
-        task: int used as an index to select a task from a dict 
-        inside this class num_questions = int indicating number
-        of questions to be asked
-        """
-        self.task = task_dict[task]
-        self.num_questions = num_questions
-        self.name = None
-        self.date = None        
-
-    def ():
-        for i in range(num_questions):
-            i
-            print('Question', i,'of ', self.num_qestions)
-        
-    def setDate(self):
-        """
-        Asks user to input date 
-        Returns user input (string)
-        """
-        self.date = input("What is today's date?:")
-
-    def setName(self):
-        """
-        Asks user to input name 
-        Returns user input (string)
-        """
-        self.name = input("What is your name?:")
-
-    def getDate(self):
-        """
-        Returns user input date(string)
-        """
-        return self.date
-
-    def setName(self):
-        """
-        Returns user input name(string)
-        """
-        return self.name
-
-
-
-
-
-    def answer(self):
-        """Asks for user input to question and gives printed response. Return nothing """
-        self.user_input = input('Next question:'+str(self.x)+'+'+str(self.y)+'=')
-        print('First user input was',self.user_input)
-        print(self.check())
-        while not self.check():            
-            self.user_input = input('Try again:'+str(self.x)+'+'+str(self.y)+'=')
-            print('First user input was',self.user_input)
-            self.check()
-        else:
-            print('Correct, well done!')
-                       
-
-
-        
-
-question = Sum()
-question.add()
-question.answer()
-        
-
-    
