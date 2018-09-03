@@ -10,7 +10,7 @@ class Homework():
         set by a setter function they remain as NoneType
         """
         self.actual_ans = None
-        self.user_input = None
+        self.ask_question = None
         self.user_guess = None
         
         
@@ -18,10 +18,10 @@ class Homework():
         """
         checks answer given by user, return True or False
         """        
-        return self.getUser_guess == self.getActual_ans
+        return self.user_guess == self.actual_ans
 
 
-    def setUser_input(self):
+    def ask_questions(self):
         """
         Asks for user input to in reponse to a question
         Returns a (string) question to be asked
@@ -47,8 +47,7 @@ class Homework():
         """
         return actual answer of the homework question
         """
-        ans = self.setActual_ans()
-        return ans
+        return self.actual_ans
 
     def getUser_input(self):
         """
@@ -81,19 +80,22 @@ class Addition(Homework):
         """         
         self.actual_ans = self.x + self.y
 
-    def setUser_input(self):
+    def ask_questions(self):
         """
         Asks for user input to in reponse to a question
-        Returns user input
+        sets a (string) question to be asked
         """
-        self.user_input = input(str(self.x)+" + "+str(self.y)+"=")
+        self.ask_question = (str(self.x)+" + "+str(self.y)+"=")
+        return self.ask_question
         
     def setUser_guess(self):
         """
+        requests user input
         converts user in put into a form that can be compared\
-        with the actual answer, in this case an int  
+        with the actual answer
+        This method is not activated in the Homework parent class  
         """
-        self.user_guess = int(self.user_input)
+        self.user_guess = int(input())
         assert type(self.user_guess) == int
         
     def getXY(self):
@@ -102,33 +104,33 @@ class Addition(Homework):
         """
         return (self.x,self.y)
 
-class Session():
-    def __init__(self, num_questions, homework_task):
-        """
-        instantiates a homework session object using number of questions
-        and a home_work task as inputs
-        
-        num_questions: int indicating number of questions to be asked
-        homework_task: the class of homework to be used to generate 
-        objects. 
-        """
-        self.num_questions = num_questions
-        self.homework_task = homework_task
-        self.record_file = open("homework.txt", "w")
-    
-    def question_check(self):
-        self.homework_task.setUser_input()
-        self.homework_task.setUser_guess()
-        
-        self.homework_task.setActual_ans()
-            if self.get
-    
-    
-    
-    def run_task:
-        question = 1
-        while question < self.num_questions+1:
-            self.homework_task.setUser_input()
-            self.homework_task.setUser_guess()
-            self.homework_task.setActual_ans()
-            if self.get
+#class Session():
+#    def __init__(self, num_questions, homework_task):
+#        """
+#        instantiates a homework session object using number of questions
+#        and a home_work task as inputs
+#        
+#        num_questions: int indicating number of questions to be asked
+#        homework_task: the class of homework to be used to generate 
+#        objects. 
+#        """
+#        self.num_questions = num_questions
+#        self.homework_task = homework_task
+#        self.record_file = open("homework.txt", "w")
+#    
+#    def question_check(self):
+#        self.homework_task.setUser_input()
+#        self.homework_task.setUser_guess()
+#        
+#        self.homework_task.setActual_ans()
+#            if self.get
+#    
+#    
+#    
+#    def run_task:
+#        question = 1
+#        while question < self.num_questions+1:
+#            self.homework_task.setUser_input()
+#            self.homework_task.setUser_guess()
+#            self.homework_task.setActual_ans()
+#            if self.get
