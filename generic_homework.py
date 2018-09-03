@@ -24,13 +24,13 @@ class Homework():
     def setUser_input(self):
         """
         Asks for user input to in reponse to a question
-        Returns user input
-        This method is not activated in the Homework parent class
+        Returns a (string) question to be asked
         """
         pass
 
     def setUser_guess(self):
         """
+        requests user input
         converts user in put into a form that can be compared\
         with the actual answer
         This method is not activated in the Homework parent class
