@@ -52,7 +52,7 @@ class Homework():
 
     def getUser_input(self):
         """
-        return user input
+        return user input, as string
         """
         return self.user_input
 
@@ -102,3 +102,33 @@ class Addition(Homework):
         """
         return (self.x,self.y)
 
+class Session():
+    def __init__(self, num_questions, homework_task):
+        """
+        instantiates a homework session object using number of questions
+        and a home_work task as inputs
+        
+        num_questions: int indicating number of questions to be asked
+        homework_task: the class of homework to be used to generate 
+        objects. 
+        """
+        self.num_questions = num_questions
+        self.homework_task = homework_task
+        self.record_file = open("homework.txt", "w")
+    
+    def question_check(self):
+        self.homework_task.setUser_input()
+        self.homework_task.setUser_guess()
+        
+        self.homework_task.setActual_ans()
+            if self.get
+    
+    
+    
+    def run_task:
+        question = 1
+        while question < self.num_questions+1:
+            self.homework_task.setUser_input()
+            self.homework_task.setUser_guess()
+            self.homework_task.setActual_ans()
+            if self.get
