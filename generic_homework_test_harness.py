@@ -18,11 +18,13 @@ from generic_homework import *
 #print(h.getUser_guess())
 #
 j = Addition()
-#print(j.check())
-print(j.setUser_input())
+
+print(j.ask_questions())
 print(j.setUser_guess())
-#print(j.setActual_ans())
-#print(j.getActual_ans())
+print(j.setActual_ans())
+print(j.getActual_ans())
 #print(j.getUser_input())
-print(j.getUser_guess())
+#print(j.getUser_guess())
 #print(j.getXY())
+print(j.check())
+#print(j.task)
