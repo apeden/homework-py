@@ -123,7 +123,7 @@ class Session():
         self.record_file = open("homework.txt", "w")
     
     def question_check(self):        
-        q= self.homework_task()
+        q = self.homework_task()
         q.setActual_ans()
         attempt = 1
         while True:            
@@ -132,9 +132,8 @@ class Session():
             if q.check():
                 print("Well done",self.student_name,",that's right!")
                 ##record to file
-                self.record_file.write(self.student_name + "gave the \
-                                       right answer"
-                + str(attempt) + "attempt(s)")
+                self.record_file.write(self.student_name + " gave the\
+                right answer after "+ str(attempt) + "attempt(s)")
                 del q
                 break
             print("Try again",self.student_name)
@@ -143,7 +142,7 @@ class Session():
     def run_task(self):
         question = 1
         while question < self.num_questions + 1:
-            self.record_file.write("Question "+str(question))
-            question_check()
+            self.record_file.write("Question "+str(question)+"\n")
+            self.question_check()
             question += 1
         self.record_file.close()
