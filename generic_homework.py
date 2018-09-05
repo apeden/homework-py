@@ -85,7 +85,7 @@ class Addition(Homework):
         Asks for user input to in reponse to a question
         sets a (string) question to be asked
         """
-        self.ask_question = (str(self.x)+" + "+str(self.y)+"=")
+        self.ask_question = (str(self.x)+" + "+str(self.y)+" = ")
         return self.ask_question
         
     def setUser_guess(self):
@@ -95,7 +95,7 @@ class Addition(Homework):
         with the actual answer
         This method is not activated in the Homework parent class  
         """
-        user_ans = input(':')
+        user_ans = input(self.ask_question)
         self.user_guess = int(user_ans)
         assert type(self.user_guess) == int
         
@@ -130,14 +130,14 @@ class Session():
             q.ask_questions()
             q.setUser_guess()
             if q.check():
-                print("Well done,",self.student_name," , that's right")
+                print("Well done",self.student_name,",that's right!")
                 ##record to file
                 self.record_file.write(self.student_name + "gave the \
                                        right answer"
                 + str(attempt) + "attempt(s)")
                 del q
                 break
-            print("Try again,",self.student_name)
+            print("Try again",self.student_name)
             attempt += 1
     
     def run_task(self):
