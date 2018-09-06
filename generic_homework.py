@@ -97,6 +97,43 @@ class Addition(Homework):
         """
         return (self.x,self.y)
 
+#class Spelling(Homework):
+#    task = 'Addition' ##class variable (name)
+#    def __init__(self):
+#        """
+#        Instantiates an Addition (Homework) object with two random ints\
+#        in a range
+#        """
+#        Homework.__init__(self)
+#        self.x = random.randint(1,12)
+#        self.y = random.randint(1,12)
+#        
+#    def setActual_ans(self):
+#        """
+#        resets self.actual ans when called
+#        """         
+#        self.actual_ans = self.x + self.y
+#
+#    def ask_questions(self):
+#        """
+#        Asks for user input to in reponse to a question
+#        sets a (string) question to be asked
+#        This is a de facto getter
+#        """
+#        self.ask_question = (str(self.x)+" + "+str(self.y)+" = ")
+#        return self.ask_question
+#        
+#    def setUser_guess(self):
+#        """
+#        requests user input
+#        assigns it to self_user_guess  
+#        """
+#        user_ans = input(self.ask_question)
+#        self.user_guess = int(user_ans)
+#        assert type(self.user_guess) == int
+#        
+
+
 class Session():
     def __init__(self, student_name, num_questions, homework_task, date):
         """
@@ -129,7 +166,6 @@ class Session():
 
         returns nothing
         """
-
         ##q is a object of a class belonging to the homework family
         q = self.homework_task()
         q.setActual_ans()
@@ -144,13 +180,13 @@ class Session():
 " said "+str(ans)+"\n")
             ##check answer
             if q.check():
-                print("Well done",self.student_name,",that's right!")
+                print("Well done",self.student_name,",that's right!\n")
                 ##record to file
                 self.record_file.write(self.student_name + " gave the \
 right answer after "+ str(attempt) + " attempt(s)\n\n")
                 del q
                 break
-            print("Try again",self.student_name)
+            print("Try again",self.student_name+"\n")
             attempt += 1
     
     def run_task(self):        
@@ -159,10 +195,14 @@ right answer after "+ str(attempt) + " attempt(s)\n\n")
         """
 
         question = 1
-        print(self.student_name+", please answer these questions.\n")
+        print("\n"+self.student_name+", please answer these questions.\n")
         while question < self.num_questions + 1:
+            print("Question "+str(question)+" of "+str(self.num_questions))
             self.record_file.write("Question "+str(question)+"\n")
             self.question_check()
             question += 1
         print('FINISH')
         self.record_file.close()
+        
+        
+
