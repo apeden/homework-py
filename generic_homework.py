@@ -1,7 +1,6 @@
 import random
 from datetime import datetime
-"""PROBLEM BELOW""""
-"""NEED TO LOOK INTO THIS"""
+
 
 class Homework():
     def __init__(self):
@@ -39,22 +38,14 @@ class Homework():
         pass
 
     def setActual_ans(self):
-        """
-        sets self.actual ans when called
-        """         
+        """ sets self.actual ans when called"""         
         pass
 
     def getActual_ans(self):
-        """
-        return actual answer of the homework question
+        """ return actual answer of the homework question
         """
         return self.actual_ans
 
-    def getUser_input(self):
-        """
-        return user input, as string
-        """
-        return self.user_input
 
     def getUser_guess(self):
         """
@@ -85,6 +76,7 @@ class Addition(Homework):
         """
         Asks for user input to in reponse to a question
         sets a (string) question to be asked
+        This is a de facto getter
         """
         self.ask_question = (str(self.x)+" + "+str(self.y)+" = ")
         return self.ask_question
@@ -93,8 +85,7 @@ class Addition(Homework):
         """
         requests user input
         converts user in put into a form that can be compared\
-        with the actual answer
-        This method is not activated in the Homework parent class  
+        with the actual answer  
         """
         user_ans = input(self.ask_question)
         self.user_guess = int(user_ans)
@@ -113,29 +104,45 @@ class Session():
         and a home_work task as inputs
         
         num_questions: int indicating number of questions to be asked
-        homework_task: the class of homework to be used to generate 
-        objects. 
+        homework_task: the class of homework to be used 
         """
         self.date = date
+        assert type(self.date) == str
         self.student_name = student_name
         assert type(self.student_name) == str
         self.num_questions = num_questions
         assert type(self.num_questions) == int
+        ###below is a class object of the 'homework' family
         self.homework_task = homework_task
+        
+        ##open and start to right to a file to record student work
         self.record_file = open("homework"+str(random.randint(1,1000))+".txt", "w")
         self.record_file.write('Homework task: '+ self.homework_task.task
 +'\nby '+self.student_name+ '\n' + self.date + "\n\n")
         
     def question_check(self):        
+        """
+        instantiates a homework task question object.
+        Calls on object to generate question, generate answer,
+        ask user the question, check answer, ask same question again if the user was wrong,
+        congratulate user when they get it right and record all the results to a file
+
+        returns nothing
+        """
+
+        ##q is a object of a class belonging to the homework family
         q = self.homework_task()
         q.setActual_ans()
         attempt = 1        
+        ##ask question
         while True:            
             q.ask_questions()
             self.record_file.write(q.ask_question+"\n")
             q.setUser_guess()
+            ans = q.getUser_guess()
             self.record_file.write(self.student_name + 
-" said "+str(q.user_guess)+"\n")
+" said "+str(ans)+"\n")
+            ##check answer
             if q.check():
                 print("Well done",self.student_name,",that's right!")
                 ##record to file
@@ -147,6 +154,10 @@ right answer after "+ str(attempt) + " attempt(s)\n\n")
             attempt += 1
     
     def run_task(self):        
+        """
+        runs a session of homework by asking the user a set number of questions
+        """
+
         question = 1
         print(self.student_name+", please answer these questions.\n")
         while question < self.num_questions + 1:
