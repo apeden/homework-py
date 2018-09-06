@@ -1,4 +1,6 @@
 import random
+from datetime import datetime
+
 
 class Homework():
     def __init__(self):
@@ -106,7 +108,7 @@ class Addition(Homework):
         return (self.x,self.y)
 
 class Session():
-    def __init__(self, student_name, num_questions, homework_task):
+    def __init__(self, student_name, num_questions, homework_task, date):
         """
         instantiates a homework session object using number of questions
         and a home_work task as inputs
@@ -115,34 +117,42 @@ class Session():
         homework_task: the class of homework to be used to generate 
         objects. 
         """
+        self.date = date
         self.student_name = student_name
         assert type(self.student_name) == str
         self.num_questions = num_questions
         assert type(self.num_questions) == int
         self.homework_task = homework_task
-        self.record_file = open("homework.txt", "w")
-    
+        self.record_file = open("homework"+str(random.randint(1,1000))+".txt", "w")
+        self.record_file.write('Homework task: '+ self.homework_task.task
++'\nby '+self.student_name+ '\n' + self.date + "\n\n")
+        
     def question_check(self):        
         q = self.homework_task()
         q.setActual_ans()
-        attempt = 1
+        attempt = 1        
         while True:            
             q.ask_questions()
+            self.record_file.write(q.ask_question+"\n")
             q.setUser_guess()
+            self.record_file.write(self.student_name + 
+" said "+str(q.user_guess)+"\n")
             if q.check():
                 print("Well done",self.student_name,",that's right!")
                 ##record to file
-                self.record_file.write(self.student_name + " gave the\
-                right answer after "+ str(attempt) + "attempt(s)")
+                self.record_file.write(self.student_name + " gave the \
+right answer after "+ str(attempt) + " attempt(s)\n\n")
                 del q
                 break
             print("Try again",self.student_name)
             attempt += 1
     
-    def run_task(self):
+    def run_task(self):        
         question = 1
+        print(self.student_name+", please answer these questions.\n")
         while question < self.num_questions + 1:
             self.record_file.write("Question "+str(question)+"\n")
             self.question_check()
             question += 1
+        print('FINISH')
         self.record_file.close()
