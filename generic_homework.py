@@ -17,9 +17,7 @@ class Homework():
         
         
     def check(self):
-        """
-        checks answer given by user, return True or False
-        """        
+        """checks answer given by user, return True or False"""        
         return self.user_guess == self.actual_ans
 
 
@@ -33,7 +31,7 @@ class Homework():
     def setUser_guess(self):
         """
         requests user input
-        converts user in put into a form that can be compared\
+        converts user input into a form that can be compared\
         with the actual answer
         This method is not activated in the Homework parent class
         """
@@ -41,7 +39,7 @@ class Homework():
 
     def setActual_ans(self):
         """
-        resets self.actual ans when called
+        sets self.actual ans when called
         """         
         pass
 
