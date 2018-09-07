@@ -42,8 +42,13 @@ and cannot be compared in the check function')
         """
         pass
 
-    def setActual_ans(self):
-        """ sets self.actual ans when called"""         
+    def setActual_ans(self, things):
+        """
+        sets self.actual ans when called
+        things: type not specified at this stage, but this argument is\
+        extra info required for the question
+        """         
+
         pass
 
     def getActual_ans(self):
@@ -67,13 +72,18 @@ class Addition(Homework):
         in a range
         """
         Homework.__init__(self)
-        self.x = random.randint(1,12)
-        self.y = random.randint(1,12)
+        self.x = None
+        self.y = None
         
-    def setActual_ans(self):
+    def setActual_ans(self, things):
         """
         resets self.actual ans when called
+
+        things: a tuple containing a range for randint
         """         
+        self.x = random.randint(things[0],things[1])
+        self.y = random.randint(things[0],things[1]) 
+        
         self.actual_ans = self.x + self.y
 
     def ask_questions(self):
@@ -138,23 +148,22 @@ class Spelling(Homework):
         self.user_guess = user_ans
 
 class Session():
-    def __init__(self, student_name, num_questions, homework_task, date):
+    def __init__(self, student_name, num_questions, homework_task, date, things):
         """
         instantiates a homework session object using number of questions
         and a home_work task as inputs
         
-        num_questions: int indicating number of questions to be asked
-        homework_task: the class of homework to be used 
+        num_questions: int, indicating number of questions to be asked
+        homework_task: the class of homework to be used
+        date: string, date when homework is done written by user
+        things: (usually tuple extra info required to set questions\
+e.g. spelling words, range of numbers etc
         """
         self.date = date
-        assert type(self.date) == str
         self.student_name = student_name
-        assert type(self.student_name) == str
         self.num_questions = num_questions
-        assert type(self.num_questions) == int
-        ###below is a class object of the 'homework' family
         self.homework_task = homework_task
-        
+        self.things = things
         ##open and start to right to a file to record student work
         self.record_file = open("homework"+str(random.randint(1,1000))+".txt", "w")
         self.record_file.write('Homework task: '+ self.homework_task.task
@@ -171,7 +180,7 @@ class Session():
         """
         ##q is a object of a class belonging to the homework family
         q = self.homework_task()
-        q.setActual_ans()
+        q.setActual_ans(self.things)
         attempt = 1        
         ##ask question
         while True:            
