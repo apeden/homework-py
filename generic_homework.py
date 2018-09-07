@@ -18,6 +18,11 @@ class Homework():
         
     def check(self):
         """checks answer given by user, return True or False"""        
+        try:
+            type(self.user_guess) == type(self.actual_ans)
+        except:
+            print('User guess and actual answer are different types\
+and cannot be compared in the check function')
         return self.user_guess == self.actual_ans
 
 
@@ -42,8 +47,7 @@ class Homework():
         pass
 
     def getActual_ans(self):
-        """ return actual answer of the homework question
-        """
+        """ return actual answer of the homework question"""
         return self.actual_ans
 
 
@@ -97,42 +101,41 @@ class Addition(Homework):
         """
         return (self.x,self.y)
 
-#class Spelling(Homework):
-#    task = 'Addition' ##class variable (name)
-#    def __init__(self):
-#        """
-#        Instantiates an Addition (Homework) object with two random ints\
-#        in a range
-#        """
-#        Homework.__init__(self)
-#        self.x = random.randint(1,12)
-#        self.y = random.randint(1,12)
-#        
-#    def setActual_ans(self):
-#        """
-#        resets self.actual ans when called
-#        """         
-#        self.actual_ans = self.x + self.y
-#
-#    def ask_questions(self):
-#        """
-#        Asks for user input to in reponse to a question
-#        sets a (string) question to be asked
-#        This is a de facto getter
-#        """
-#        self.ask_question = (str(self.x)+" + "+str(self.y)+" = ")
-#        return self.ask_question
-#        
-#    def setUser_guess(self):
-#        """
-#        requests user input
-#        assigns it to self_user_guess  
-#        """
-#        user_ans = input(self.ask_question)
-#        self.user_guess = int(user_ans)
-#        assert type(self.user_guess) == int
-#        
+class Spelling(Homework):
+    task = 'Spelling' ##class variable (name)
+    def __init__(self, words):
+        """
+        Instantiates a spelling (Homework) object with two random ints\
+        in a range
+        
+        words: tuple of words (strings)
+        """
+        Homework.__init__(self)
+        self.words = words
+        self.num_words =len(words)
+        
+    def setActual_ans(self, i):
+        """
+        resets self.actual ans when called
+        """         
+        self.actual_ans = word[i]
 
+    def ask_questions(self):
+        """
+        Asks for user input to in reponse to a question
+        sets a (string) question to be asked
+        This is a de facto getter
+        """
+        self.ask_question = ('How do you spell '+ self.actual_ans+ '?')
+        return self.ask_question
+        
+    def setUser_guess(self):
+        """
+        requests user input
+        assigns it to self_user_guess  
+        """
+        user_ans = input(self.ask_question)
+        self.user_guess = user_ans
 
 class Session():
     def __init__(self, student_name, num_questions, homework_task, date):
