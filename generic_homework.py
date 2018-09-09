@@ -1,5 +1,7 @@
 import random
-from datetime import datetime
+import datetime
+from time import*
+now = datetime.datetime.now()
 
 
 class Homework():
@@ -16,8 +18,16 @@ class Homework():
         self.user_guess = None
         
         
-    def check(self):
-        """checks answer given by user, return True or False"""        
+    def check(self, i):
+        """
+        checks answer given by user
+        
+        i: int index for checking where you are in a multipart\
+        question
+        
+        return True of False
+        
+        """        
         try:
             type(self.user_guess) == type(self.actual_ans)
         except:
@@ -26,10 +36,12 @@ and cannot be compared in the check function')
         return self.user_guess == self.actual_ans
 
 
-    def ask_questions(self):
+    def ask_questions(self, i):
         """
         Asks for user input to in reponse to a question
         Returns a (string) question to be asked
+        
+        i: int, for keeping track of where you are in a multipart question
         """
         pass
 
@@ -75,6 +87,7 @@ class Addition(Homework):
         self.x = None
         self.y = None
         
+        
     def setActual_ans(self, things):
         """
         resets self.actual ans when called
@@ -86,15 +99,20 @@ class Addition(Homework):
         
         self.actual_ans = self.x + self.y
 
-    def ask_questions(self):
+
+    def ask_questions(self, i):
         """
         Asks for user input to in reponse to a question
         sets a (string) question to be asked
         This is a de facto getter
+        
+        i: int, for keeping track of where you are in a multipart question
+        Not used in this case
         """
         self.ask_question = (str(self.x)+" + "+str(self.y)+" = ")
         return self.ask_question
         
+    
     def setUser_guess(self):
         """
         requests user input
@@ -105,48 +123,60 @@ class Addition(Homework):
         self.user_guess = int(user_ans)
         assert type(self.user_guess) == int
         
+        
     def getXY(self):
         """
         returns x and y as tuple (x,y)  
         """
         return (self.x,self.y)
 
+
 class Spelling(Homework):
-    task = 'Spelling' ##class variable (name)
-    def __init__(self, words):
-        """
-        Instantiates a spelling (Homework) object with two random ints\
-        in a range
-        
-        words: tuple of words (strings)
-        """
-        Homework.__init__(self)
-        self.words = words
-        self.num_words =len(words)
-        
-    def setActual_ans(self, i):
+    task = 'Spelling' ##class variable (name)        
+    def setActual_ans(self, things):
         """
         resets self.actual ans when called
         """         
-        self.actual_ans = word[i]
+        self.actual_ans = things
 
-    def ask_questions(self):
+
+    def ask_questions(self, i):
         """
         Asks for user input to in reponse to a question
         sets a (string) question to be asked
         This is a de facto getter
-        """
-        self.ask_question = ('How do you spell '+ self.actual_ans+ '?')
-        return self.ask_question
         
+        i: into index for keeping track of position in multipart question
+        """
+        self.ask_question = ('The word is: '+ self.actual_ans[i])
+        return self.ask_question
+ 
+       
     def setUser_guess(self):
         """
         requests user input
         assigns it to self_user_guess  
         """
-        user_ans = input(self.ask_question)
+        user_ans = input('\n\n\n\nHow do you spell it?')
         self.user_guess = user_ans
+ 
+       
+    def check(self, i):
+        """
+        checks answer given by user, return True or False
+        
+        i: int index for keeping track of where one is\
+        in a multipart question
+        """        
+        try:
+            type(self.user_guess) == type(self.actual_ans[i])
+        except:
+            print('User guess and actual answer are different types\
+and cannot be compared in the check function')
+        return self.user_guess == self.actual_ans[i]
+        
 
+        
 class Session():
     def __init__(self, student_name, num_questions, homework_task, date, things):
         """
@@ -167,14 +197,18 @@ e.g. spelling words, range of numbers etc
         ##open and start to right to a file to record student work
         self.record_file = open("homework"+str(random.randint(1,1000))+".txt", "w")
         self.record_file.write('Homework task: '+ self.homework_task.task
-+'\nby '+self.student_name+ '\n' + self.date + "\n\n")
++ '\nby '+self.student_name+ '\n' + self.date + "\n\n"
++ now.strftime("%Y-%m-%d %H:%M")+"\n\n")
         
-    def question_check(self):        
+        
+    def question_check(self, count):        
         """
         instantiates a homework task question object.
         Calls on object to generate question, generate answer,
         ask user the question, check answer, ask same question again if the user was wrong,
         congratulate user when they get it right and record all the results to a file
+        
+        count: int, used to keep a track within a multipart question
 
         returns nothing
         """
@@ -183,38 +217,41 @@ e.g. spelling words, range of numbers etc
         q.setActual_ans(self.things)
         attempt = 1        
         ##ask question
+        question = q.ask_questions(count)
+        print(question)
+        self.record_file.write(question+"\n")
         while True:            
-            q.ask_questions()
-            self.record_file.write(q.ask_question+"\n")
             q.setUser_guess()
             ans = q.getUser_guess()
             self.record_file.write(self.student_name + 
-" said "+str(ans)+"\n")
+" wrote:  "+str(ans)+"\n")
             ##check answer
-            if q.check():
+            if q.check(count):
                 print("Well done",self.student_name,",that's right!\n")
                 ##record to file
                 self.record_file.write(self.student_name + " gave the \
-right answer after "+ str(attempt) + " attempt(s)\n\n")
+right answer after "+ str(attempt) + " attempt(s)\n")
+                sentence = input("Write a sentence using this word:")
+                self.record_file.write(self.student_name + " wrote: " +
+sentence + "\n\n")
                 del q
                 break
             print("Try again",self.student_name+"\n")
             attempt += 1
+   
     
     def run_task(self):        
         """
         runs a session of homework by asking the user a set number of questions
         """
 
-        question = 1
+        question_num = 1
         print("\n"+self.student_name+", please answer these questions.\n")
-        while question < self.num_questions + 1:
-            print("Question "+str(question)+" of "+str(self.num_questions))
-            self.record_file.write("Question "+str(question)+"\n")
-            self.question_check()
-            question += 1
+        while question_num < self.num_questions + 1:
+            print("\n\nQuestion "+str(question_num)+" of "+str(self.num_questions))
+            self.record_file.write("Question "+str(question_num)+"\n")
+            self.question_check(question_num-1)
+            question_num += 1
         print('FINISH')
-        self.record_file.close()
-        
-        
+        self.record_file.close()       
 
