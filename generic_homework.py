@@ -32,7 +32,7 @@ class Homework():
             type(self.user_guess) == type(self.actual_ans)
         except:
             print('User guess and actual answer are different types\
-and cannot be compared in the check function')
+            and cannot be compared in the check function')
         return self.user_guess == self.actual_ans
 
 
@@ -62,6 +62,10 @@ and cannot be compared in the check function')
         """         
 
         pass
+
+    def getAsk_questions(self):
+        return self.ask_question
+
 
     def getActual_ans(self):
         """ return actual answer of the homework question"""
@@ -96,7 +100,6 @@ class Addition(Homework):
         """         
         self.x = random.randint(things[0],things[1])
         self.y = random.randint(things[0],things[1]) 
-        
         self.actual_ans = self.x + self.y
 
 
@@ -131,6 +134,37 @@ class Addition(Homework):
         return (self.x,self.y)
 
 
+class DevideByTen(Addition):
+    task = 'DevideByTen'
+    def __init__(self):
+        Addition.__init__(self)
+
+    def setActual_ans(self, things):
+        """
+        resets self.actual ans when called
+
+        things: a tuple containing a range for randint
+        """          
+        self.x = random.randint(things[0],things[1])
+        self.actual_ans = self.x
+
+    def ask_questions(self, i):
+        """
+        Asks for user input to in reponse to a question
+        sets a (string) question to be asked
+        Returns the question as a string
+        
+        i: int, for keeping track of where you are in a multipart question
+        Not used in this case
+        """
+        try:
+            multipleOfTen = self.x * 10
+            self.ask_question = " 1\n--- of "+ (str(multipleOfTen))+" is \n10            :"
+        except:
+            print("Could not generate a multiple of 10")
+        return self.ask_question
+
+
 class Spelling(Homework):
     task = 'Spelling' ##class variable (name)        
     def setActual_ans(self, things):
@@ -158,7 +192,7 @@ class Spelling(Homework):
         assigns it to self_user_guess  
         """
         user_ans = input('\n\n\n\nHow do you spell it?')
-        self.user_guess = user_ans
+        self.user_guess = user_ans.lower()
  
        
     def check(self, i):
@@ -176,6 +210,31 @@ and cannot be compared in the check function')
         return self.user_guess == self.actual_ans[i]
         
 
+class Sentence(Spelling):
+    task = 'Sentence' ##class variable (name) 
+    def setUser_guess(self):
+        """
+        requests user input
+        assigns it to self_user_guess  
+        """
+        user_ans = input('\n\nWrite a sentence containing this word:  ')
+        self.user_guess = user_ans.lower()
+
+    def check(self, i):
+        """
+        checks answer given by user, return True or False
+        
+        i: int index for keeping track of where one is\
+        in a multipart question
+        """        
+        try:
+            type(self.user_guess) == type(self.actual_ans[i])
+        except:
+            print('User guess and actual answer are different types\
+            and cannot be compared in the check function')
+        return self.actual_ans[i] in self.user_guess
+ 
+
         
 class Session():
     def __init__(self, student_name, num_questions, homework_task, date, things):
@@ -186,8 +245,8 @@ class Session():
         num_questions: int, indicating number of questions to be asked
         homework_task: the class of homework to be used
         date: string, date when homework is done written by user
-        things: (usually tuple extra info required to set questions\
-e.g. spelling words, range of numbers etc
+        things: (usually tuple extra info required to set questions
+        e.g. spelling words, range of numbers etc
         """
         self.date = date
         self.student_name = student_name
@@ -212,8 +271,7 @@ e.g. spelling words, range of numbers etc
 
         returns nothing
         """
-        ##q is a object of a class belonging to the homework family
-        q = self.homework_task()
+        q = self.homework_task()##sets up homework questions
         q.setActual_ans(self.things)
         attempt = 1        
         ##ask question
@@ -231,9 +289,6 @@ e.g. spelling words, range of numbers etc
                 ##record to file
                 self.record_file.write(self.student_name + " gave the \
 right answer after "+ str(attempt) + " attempt(s)\n")
-                sentence = input("Write a sentence using this word:")
-                self.record_file.write(self.student_name + " wrote: " +
-sentence + "\n\n")
                 del q
                 break
             print("Try again",self.student_name+"\n")
