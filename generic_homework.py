@@ -60,7 +60,6 @@ class Homework():
         things: type not specified at this stage, but this argument is\
         extra info required for the question
         """         
-
         pass
 
     def getAsk_questions(self):
@@ -122,9 +121,13 @@ class Addition(Homework):
         converts user in put into a form that can be compared\
         with the actual answer  
         """
-        user_ans = input(self.ask_question)
-        self.user_guess = int(user_ans)
-        assert type(self.user_guess) == int
+        while True:
+            try:
+                user_ans = input(self.ask_question)
+                self.user_guess = int(user_ans)
+                break
+            except ValueError:
+                print ("Number value please")
         
         
     def getXY(self):
@@ -132,6 +135,57 @@ class Addition(Homework):
         returns x and y as tuple (x,y)  
         """
         return (self.x,self.y)
+
+
+
+class EquivalentToFifth(Addition):
+    def setActual_ans(self, things):
+        """
+        resets self.actual ans when called
+
+        things: a tuple containing a range for randint
+        """         
+        self.x = random.randint(things[0],things[1])*5
+        self.y = random.randint(things[0],things[1]) 
+        self.actual_ans = (self.x) / 5
+    
+    def ask_questions(self, i):
+        """
+        Asks for user input to in reponse to a question
+        sets a (string) question to be asked
+        This is a de facto getter
+        
+        i: int, for keeping track of where you are in a multipart question
+        Not used in this case
+        """
+        self.ask_question = (" 1     ?\n=== = ===   \n 5    "+str(self.x)+"     ? = ")
+        return self.ask_question
+
+
+class EquivalentToThreeFifths(Addition):
+    def setActual_ans(self, things):
+        """
+        resets self.actual ans when called
+
+        things: a tuple containing a range for randint
+        """         
+        self.x = random.randint(things[0],things[1])*5
+        self.y = random.randint(things[0],things[1])*3 
+        self.actual_ans = (3*self.x)/5
+    
+    def ask_questions(self, i):
+        """
+        Asks for user input to in reponse to a question
+        sets a (string) question to be asked
+        This is a de facto getter
+        
+        i: int, for keeping track of where you are in a multipart question
+        Not used in this case
+        """
+        self.ask_question = (" 3     ?\n=== = ===   \n 5    "+str(self.x)+"     ? = ")
+        return self.ask_question
+
+
 
 
 class DevideByTen(Addition):
@@ -165,8 +219,32 @@ class DevideByTen(Addition):
         return self.ask_question
 
 
+class CakesByTen(DevideByTen):
+    task = 'CakesByTen'
+
+
+    def ask_questions(self, i):
+        """
+        Asks for user input to in reponse to a question
+        sets a (string) question to be asked
+        Returns the question as a string
+        
+        i: int, for keeping track of where you are in a multipart question
+        Not used in this case
+        """
+        try:
+            multipleOfTen = self.x * 10
+            self.ask_question = "What is one tenth of the cakes \n"+5*((int((multipleOfTen/5))*"0 ")+"\n")
+        except:
+            print("Could not generate a multiple of 10")
+        return self.ask_question
+
+
 class Spelling(Homework):
     task = 'Spelling' ##class variable (name)        
+    def __init__(self):
+        Homework.__init__(self)
+
     def setActual_ans(self, things):
         """
         resets self.actual ans when called
@@ -178,12 +256,10 @@ class Spelling(Homework):
         """
         Asks for user input to in reponse to a question
         sets a (string) question to be asked
-        This is a de facto getter
         
         i: into index for keeping track of position in multipart question
         """
-        self.ask_question = ('The word is: '+ self.actual_ans[i])
-        return self.ask_question
+        self.ask_question = 'The word is: '+ self.actual_ans[i]
  
        
     def setUser_guess(self):
@@ -191,6 +267,7 @@ class Spelling(Homework):
         requests user input
         assigns it to self_user_guess  
         """
+        print(self.ask_question)
         user_ans = input('\n\n\n\nHow do you spell it?')
         self.user_guess = user_ans.lower()
  
@@ -211,12 +288,13 @@ and cannot be compared in the check function')
         
 
 class Sentence(Spelling):
-    task = 'Sentence' ##class variable (name) 
+    task = 'Sentence' 
     def setUser_guess(self):
         """
         requests user input
-        assigns it to self_user_guess  
+        assigns it to self.user_guess  
         """
+        print(self.ask_question)
         user_ans = input('\n\nWrite a sentence containing this word:  ')
         self.user_guess = user_ans.lower()
 
@@ -231,9 +309,8 @@ class Sentence(Spelling):
             type(self.user_guess) == type(self.actual_ans[i])
         except:
             print('User guess and actual answer are different types\
-            and cannot be compared in the check function')
-        return self.actual_ans[i] in self.user_guess
- 
+and cannot be compared in the check function')
+        return self.actual_ans[i] in self.user_guess.lower() 
 
         
 class Session():
@@ -255,7 +332,7 @@ class Session():
         self.things = things
         ##open and start to right to a file to record student work
         self.record_file = open("homework"+str(random.randint(1,1000))+".txt", "w")
-        self.record_file.write('Homework task: '+ self.homework_task.task
+        self.record_file.write('Homework task: '+ str(self.homework_task)
 + '\nby '+self.student_name+ '\n' + self.date + "\n\n"
 + now.strftime("%Y-%m-%d %H:%M")+"\n\n")
         
@@ -271,22 +348,18 @@ class Session():
 
         returns nothing
         """
-        q = self.homework_task()##sets up homework questions
+        q = self.homework_task()
         q.setActual_ans(self.things)
         attempt = 1        
-        ##ask question
-        question = q.ask_questions(count)
-        print(question)
-        self.record_file.write(question+"\n")
+        q.ask_questions(count)
+        self.record_file.write(q.getAsk_questions()+"\n")
         while True:            
             q.setUser_guess()
             ans = q.getUser_guess()
             self.record_file.write(self.student_name + 
 " wrote:  "+str(ans)+"\n")
-            ##check answer
             if q.check(count):
                 print("Well done",self.student_name,",that's right!\n")
-                ##record to file
                 self.record_file.write(self.student_name + " gave the \
 right answer after "+ str(attempt) + " attempt(s)\n")
                 del q
@@ -304,7 +377,7 @@ right answer after "+ str(attempt) + " attempt(s)\n")
         print("\n"+self.student_name+", please answer these questions.\n")
         while question_num < self.num_questions + 1:
             print("\n\nQuestion "+str(question_num)+" of "+str(self.num_questions))
-            self.record_file.write("Question "+str(question_num)+"\n")
+            self.record_file.write("\nQuestion "+str(question_num)+"\n")
             self.question_check(question_num-1)
             question_num += 1
         print('FINISH')
