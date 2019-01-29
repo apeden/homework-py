@@ -33,6 +33,7 @@ class Homework():
         except:
             print('User guess and actual answer are different types\
             and cannot be compared in the check function')
+            
         return self.user_guess == self.actual_ans
 
 
@@ -77,6 +78,10 @@ class Homework():
         comparison with the actual answer
         """
         return self.user_guess
+
+
+    def __str__(self):
+        print("this is a homework task") 
 
 
 class Addition(Homework):
@@ -239,6 +244,48 @@ class CakesByTen(DevideByTen):
             print("Could not generate a multiple of 10")
         return self.ask_question
 
+class FractionsToLetter(Addition):
+    task = "FractionsToLetter"
+
+
+    def setActual_ans(self, things):
+        """
+        resets self.actual ans when called
+
+        things: a tuple containing operands
+        """          
+        self.actual_ans = things
+
+    def ask_questions(self, i):
+        """
+        Asks for user input to in reponse to a question
+        sets a (string) question to be asked
+        Returns the question as a string
+        
+        i: int, for keeping track of where you are in a multipart question
+        Not used in this case
+        """
+
+        self.ask_question = " "+str(self.actual_ans[i][0])+"\n--- TIMES "+str(self.actual_ans[i][2])+" is \n"+ str(self.actual_ans[i][1])+"            :"
+        return self.ask_question
+
+
+    def check(self, i):
+        """
+        checks answer given by user
+        
+        i: int index for checking where you are in a multipart\
+        question
+        
+        return True of False
+        
+        """        
+        try:
+            type(self.user_guess) == type(self.actual_ans)
+        except:
+            print('User guess and actual answer are different types\
+            and cannot be compared in the check function')
+        return self.user_guess == (self.actual_ans[i][0]/self.actual_ans[i][1])*self.actual_ans[i][2]
 
 class Spelling(Homework):
     task = 'Spelling' ##class variable (name)        
@@ -268,7 +315,7 @@ class Spelling(Homework):
         assigns it to self_user_guess  
         """
         print(self.ask_question)
-        user_ans = input('\n\n\n\nHow do you spell it?')
+        user_ans = input('\n\n\n\n\n\n\n\How do you spell it?')
         self.user_guess = user_ans.lower()
  
        
@@ -284,7 +331,7 @@ class Spelling(Homework):
         except:
             print('User guess and actual answer are different types\
 and cannot be compared in the check function')
-        return self.user_guess == self.actual_ans[i]
+        return self.actual_ans[i].lower() in self.user_guess.lower()
         
 
 class Sentence(Spelling):
@@ -295,7 +342,7 @@ class Sentence(Spelling):
         assigns it to self.user_guess  
         """
         print(self.ask_question)
-        user_ans = input('\n\nWrite a sentence containing this word:  ')
+        user_ans = input('\n\n\n\n\nWrite a sentence containing this word:  ')
         self.user_guess = user_ans.lower()
 
     def check(self, i):
@@ -310,7 +357,35 @@ class Sentence(Spelling):
         except:
             print('User guess and actual answer are different types\
 and cannot be compared in the check function')
-        return self.actual_ans[i] in self.user_guess.lower() 
+
+        
+        target_word = self.actual_ans[i].lower()
+        guess = self.user_guess.lower()
+        target_word_start = guess.index(target_word)
+        try:
+            after_char = guess[target_word_start + len(target_word)]
+        except:
+            after_char = None
+        try:
+            before_char = guess[target_word_start - 1]
+        except:
+            before_char = None
+
+        if not (before_char == None) and not (after_char == None):
+            print("Before Char is " + before_char)
+            print("After Char is " + after_char)
+        
+        if len(guess) > len(target_word):
+            if target_word in guess:
+                if (target_word_start == 0) and ((after_char == " ") or (after_char == ",") or (after_char == ".")):
+                    return True
+                elif (before_char == " ") and ((after_char == " ") or (after_char == ",") or (after_char == ".") or (after_char == None)): 
+                    return True
+            else:
+                return False
+        else:
+            return False
+
 
         
 class Session():
@@ -332,7 +407,7 @@ class Session():
         self.things = things
         ##open and start to right to a file to record student work
         self.record_file = open("homework"+str(random.randint(1,1000))+".txt", "w")
-        self.record_file.write('Homework task: '+ str(self.homework_task)
+        self.record_file.write('Homework task: '+ str(self.homework_task.__name__)
 + '\nby '+self.student_name+ '\n' + self.date + "\n\n"
 + now.strftime("%Y-%m-%d %H:%M")+"\n\n")
         
@@ -364,7 +439,7 @@ class Session():
 right answer after "+ str(attempt) + " attempt(s)\n")
                 del q
                 break
-            print("Try again",self.student_name+"\n")
+            print("SORRY",self.student_name.upper()+"\nYOU NEED TO TRY AGAIN!")
             attempt += 1
    
     

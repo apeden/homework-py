@@ -18,19 +18,42 @@ student_name = ""
 date =""
 
 things = (
-"sensibly", 
-"probably",
-"horribly",
-"invisible",
-"miserable",
-"possible",
-##"uncle",
-##"thankful",
-##"wonderful,
-##"beautiful",
-##"helpfully",
-##"painfully"
+##"through", 
+##"different",
+##"important",
+##"question",
+##"discover",
+##"paragraph",
+"especially",
+"stretch",
+"famous",
+"exciting",
+"particular",
+"beautiful",
 )
+
+
+things2 =(
+(1,4,60),
+(1,5,60),
+(1,3,36),
+(1,3,48),
+(1,10,80),
+(1,10,150),
+(1,3,54),
+(1,2,32),
+(1,10,220),
+(1,2,18),
+(13,20,40),
+(9,15,30),
+(1,10,130),
+(1,100,2300),
+(11,20,40),
+(26,30,30),
+(1,9,81))
+
+
+
 
 num_questions = len(things)
 
@@ -38,8 +61,12 @@ num_questions = len(things)
 def inputRequest(request):
     userInput =""
     while userInput == "":
-        userInput = input('\n\nWhat\'s' + request+ "? ")
-        print("Please write something for" + request)
+        try:
+            userInput = input('\n\nWhat\'s' + request+ "? ")
+            assert(userInput != "")
+        except:
+            userInput == ""
+            print("Please write something for" + request)     
     return userInput
         
 student_name = inputRequest(" your name")
@@ -60,7 +87,6 @@ to perform from this list: ")
             print("Enter a number between 1 and 7")
     
 
-
 homework_task  = homeworkSelection()
 print(homework_task)
 
@@ -68,6 +94,9 @@ if not (homework_task == Sentence, Spelling):
     num_questions = 10
     things = (1,10)
 
+##homework_task = FractionsToLetter
+##things = things2
+##
 work = Session(student_name, num_questions, homework_task, date, things)
 work.run_task()
 
