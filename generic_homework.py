@@ -22,7 +22,7 @@ class Homework():
         """
         checks answer given by user
         
-        i: int index for checking where you are in a multipart\
+        i: int index for checking where you are in a multipart
         question
         
         return True of False
@@ -31,8 +31,8 @@ class Homework():
         try:
             type(self.user_guess) == type(self.actual_ans)
         except:
-            print('User guess and actual answer are different types\
-            and cannot be compared in the check function')
+            print("User guess and actual answer are different types" +
+            " and cannot be compared in the check function")
             
         return self.user_guess == self.actual_ans
 
@@ -143,6 +143,44 @@ class Addition(Homework):
 
 
 
+class Percentages(Addition):
+    task = 'Percentages' ##class variable (name)
+    def __init__(self):
+        """
+        Instantiates an Addition (Homework) object with two random ints\
+        in a range
+        """
+        Homework.__init__(self)
+        self.x = None
+        self.y = None
+
+    def ask_questions(self, i):
+        """
+        Asks for user input to in reponse to a question
+        sets a (string) question to be asked
+        This is a de facto getter
+        
+        i: int, for keeping track of where you are in a multipart question
+        Not used in this case
+        """
+        self.ask_question = "What is " + str(self.y) + " percent of " + str(self.x)+ "?:"
+        return self.ask_question
+        
+
+    def setActual_ans(self, things):
+        """
+        resets self.actual ans when called
+
+        things: a tuple containing a range for randint
+        """          
+        self.x = (random.randint(things[0],things[1]))*2
+        if self.x % 4 == 0:
+            self.y = random.choice([25,50,75])
+        else:
+            self.y = 50
+        self.actual_ans = int(self.x * (self.y/100))
+
+
 class EquivalentToFifth(Addition):
     def setActual_ans(self, things):
         """
@@ -189,8 +227,6 @@ class EquivalentToThreeFifths(Addition):
         """
         self.ask_question = (" 3     ?\n=== = ===   \n 5    "+str(self.x)+"     ? = ")
         return self.ask_question
-
-
 
 
 class DevideByTen(Addition):
@@ -315,8 +351,8 @@ class Spelling(Homework):
         assigns it to self_user_guess  
         """
         print(self.ask_question)
-        user_ans = input('\n\n\n\n\n\n\n\How do you spell it?')
-        self.user_guess = user_ans.lower()
+        user_ans = input('\n\n\n\n\n\n\n\n\n\n\n\nHow do you spell it?')
+        self.user_guess = user_ans
  
        
     def check(self, i):
@@ -342,8 +378,8 @@ class Sentence(Spelling):
         assigns it to self.user_guess  
         """
         print(self.ask_question)
-        user_ans = input('\n\n\n\n\nWrite a sentence containing this word:  ')
-        self.user_guess = user_ans.lower()
+        user_ans = input('\n\n\n\n\n\n\n\n\Write a sentence containing this word:  ')
+        self.user_guess = user_ans
 
     def check(self, i):
         """
@@ -352,15 +388,14 @@ class Sentence(Spelling):
         i: int index for keeping track of where one is\
         in a multipart question
         """        
-        try:
-            type(self.user_guess) == type(self.actual_ans[i])
-        except:
-            print('User guess and actual answer are different types\
-and cannot be compared in the check function')
 
         
         target_word = self.actual_ans[i].lower()
         guess = self.user_guess.lower()
+
+        if target_word not in guess:
+            return False
+
         target_word_start = guess.index(target_word)
         try:
             after_char = guess[target_word_start + len(target_word)]
@@ -376,13 +411,10 @@ and cannot be compared in the check function')
             print("After Char is " + after_char)
         
         if len(guess) > len(target_word):
-            if target_word in guess:
-                if (target_word_start == 0) and ((after_char == " ") or (after_char == ",") or (after_char == ".")):
-                    return True
-                elif (before_char == " ") and ((after_char == " ") or (after_char == ",") or (after_char == ".") or (after_char == None)): 
-                    return True
-            else:
-                return False
+            if  (target_word_start == 0) and ((after_char == " ") or (after_char == ",") or (after_char == ".")):
+                return True
+            elif (before_char == " ") and ((after_char == " ") or (after_char == ",") or (after_char == ".") or (after_char == None)): 
+                return True
         else:
             return False
 
@@ -442,6 +474,9 @@ right answer after "+ str(attempt) + " attempt(s)\n")
             print("SORRY",self.student_name.upper()+"\nYOU NEED TO TRY AGAIN!")
             attempt += 1
    
+    def get_record_file(self):
+        return self.record_file
+
     
     def run_task(self):        
         """
@@ -456,5 +491,5 @@ right answer after "+ str(attempt) + " attempt(s)\n")
             self.question_check(question_num-1)
             question_num += 1
         print('FINISH')
-        self.record_file.close()       
+               
 

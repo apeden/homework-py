@@ -6,30 +6,31 @@ Created on Thu Sep  6 00:43:27 2018
 
 import random
 from generic_homework import *
-
+6
 homeworkTasks = {"1":Addition,
                 "2":EquivalentToFifth,
                 "3":EquivalentToThreeFifths,
                 "4":DevideByTen,
                 "5":CakesByTen,
                 "6":Spelling,
-                "7":Sentence}
+                "7":Sentence,
+                "8":Percentages}
 student_name = ""
 date =""
 
 things = (
-##"through", 
-##"different",
-##"important",
-##"question",
-##"discover",
-##"paragraph",
-"especially",
-"stretch",
-"famous",
-"exciting",
-"particular",
-"beautiful",
+"Je m'appelle", 
+"Anniversaire",
+"Aujourd'hui",
+"Repetez",
+"Ecosse",
+"Merci",
+"Beaucoup",
+"S'il vous plait",
+"J'aime",
+"Croissant",
+"Pomme",
+"Pain au chocolate",
 )
 
 
@@ -52,11 +53,7 @@ things2 =(
 (26,30,30),
 (1,9,81))
 
-
-
-
 num_questions = len(things)
-
 
 def inputRequest(request):
     userInput =""
@@ -72,7 +69,6 @@ def inputRequest(request):
 student_name = inputRequest(" your name")
 date = inputRequest(" today\'s date.")
 
-
 def homeworkSelection():   
     selection = None
     while selection == None:
@@ -86,17 +82,17 @@ to perform from this list: ")
         except KeyError:
             print("Enter a number between 1 and 7")
     
-
 homework_task  = homeworkSelection()
 print(homework_task)
 
-if not (homework_task == Sentence, Spelling):
+if ((homework_task != Sentence) and  (homework_task != Spelling)):
     num_questions = 10
-    things = (1,10)
+    things = (1,100)
 
 ##homework_task = FractionsToLetter
 ##things = things2
-##
+
 work = Session(student_name, num_questions, homework_task, date, things)
 work.run_task()
+work.get_record_file().close() 
 
